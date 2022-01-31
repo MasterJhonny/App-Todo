@@ -1,24 +1,38 @@
-import logo from './logo.svg';
+import React from "react";
 import './App.css';
 
-function App() {
+
+// import compomentes
+import { Header } from "./Header/Header";
+import { TodoCounter } from "./todoCounter/TodoCounter";
+import { TodoSearcher } from "./todoSearcher/TodoSearcher";
+import { TodoList } from "./todoList/TodoList";
+import { TodoItem } from './todoItem/TodoItem';
+import { CreateTodoButton } from "./createTodoButton/CreateTodoButton";
+
+const todos = [
+  { text: 'Cortar cebolla', completed: true },
+  { text: 'Tomar el curso de React', completed: false },
+  { text: 'Tomar Verano', completed: true },
+  { text: 'Lalalalal', completed: false }
+
+]
+
+function App(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <Header/>
+      <div className="main">
+        <TodoCounter/>
+        <TodoSearcher />
+        <TodoList>
+          {todos.map((todo, index) => (
+            <TodoItem key={todo.text} id={index.toString()} text={todo.text} completed={todo.completed}/>
+          ))}
+        </TodoList>
+        <CreateTodoButton/>
+      </div>
+    </React.Fragment>
   );
 }
 
