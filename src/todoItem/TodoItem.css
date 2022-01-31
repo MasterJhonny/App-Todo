@@ -1,0 +1,67 @@
+.TodoItem {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    padding: 10px 20px;
+    box-shadow: -1px 2px 5px 1px rgba(0,0,0,0.2);
+    margin: 20px 0;
+    border-radius: 5px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.delete-item {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    background-image: url(https://cdn-icons-png.flaticon.com/512/5939/5939514.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.7;
+}
+.delete-item:hover {
+    opacity: 1;
+}
+
+label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.Todo__check {
+    cursor: pointer;
+    display: none;
+}
+
+
+input:checked ~ p {
+    text-decoration: line-through;
+}
+input:checked ~ span {
+    opacity: 1;
+}
+.item__check {
+    width: 20px;
+    height: 20px;
+    background-image: url(https://cdn-icons-png.flaticon.com/512/6276/6276686.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.1;
+}
+.item__icon--check {
+    opacity: 1;
+}
+
+.item__text--check {
+    text-decoration: line-through;
+}
+
+
+p {
+    flex: 6;
+    text-align: left;
+    margin-left: 10px;
+}
