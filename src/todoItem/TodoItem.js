@@ -32,7 +32,7 @@ function TodoItem(props) {
   const deleteTodo = (todo) => {
     alert(`has Deleted el To-do, ${todo}`);
     let index = props.id;
-    let todosNoDelete = props.todos.filter(todo => todo.id != index);
+    let todosNoDelete = props.todos.filter(todo => todo.id !== index);
     props.setTodos([...todosNoDelete]);
   };
 

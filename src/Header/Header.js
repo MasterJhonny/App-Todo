@@ -6,7 +6,7 @@ const url = 'https://www.svgrepo.com/show/356977/todo-list.svg';
 function Header () {
     return (
         <div className="header">
-            <img src={url}/>
+            <img src={url} alt="logo app"/>
             <h2 className="title">To-do List</h2>
         </div>
     );
