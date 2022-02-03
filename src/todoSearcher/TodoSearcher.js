@@ -1,21 +1,19 @@
 import React from 'react';
 import './TodoSearch.css';
 
-function TodoSearcher () {
-    const [searchValue, setSearchValue] = React.useState('');
-
+function TodoSearcher ({ searchValue, setSearchValue }) {
+    
+    // function at buscar todoSearcher
     const onSearchValue = (event) => {
         setSearchValue(event.target.value);
     } 
 
-    return [ 
+    return ( 
         <input 
             onChange={onSearchValue}
             value={searchValue}
             placeholder="Buscar Todo"/>
-        , 
-        <p>{searchValue}</p>
-    ];
+    );
 }
 
 export { TodoSearcher };

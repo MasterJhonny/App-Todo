@@ -35,13 +35,6 @@ label {
     display: none;
 }
 
-
-input:checked ~ p {
-    text-decoration: line-through;
-}
-input:checked ~ span {
-    opacity: 1;
-}
 .item__check {
     width: 20px;
     height: 20px;

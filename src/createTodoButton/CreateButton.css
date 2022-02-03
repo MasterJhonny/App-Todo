@@ -1,22 +1,19 @@
-.container__btn {
-    position: relative;
-}
-
-button {
+.btn {
     background-color: #f469bc; 
     border: 0;
     width: 50px;
     height: 50px;
     color: #fff;
-    font-size: 18px;
+    font-size: 24px;
     font-weight: bold;
     border-radius: 50%;
     cursor: pointer;
-    position: absolute;
-    bottom: -100px;
-    right: -20px;
+    position: fixed;
+    bottom: 70px;
+    right: 40px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.4), -5px 0px 10px rgba(0, 0, 0, 0.4);
 }
-button:hover {
+.btn:hover {
     animation-name: blink;
     animation-duration: 1s;
     font-size: 32px; 
@@ -29,6 +26,6 @@ button:hover {
     }
     from { 
         background-color: #f469bc;
-        font-size: 18px; 
+        font-size: 24px; 
     }
 }
