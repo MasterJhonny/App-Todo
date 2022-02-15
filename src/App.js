@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import './App.css';
 
 
@@ -10,7 +10,7 @@ import { TodoList } from "./todoList/TodoList";
 import { TodoItem } from './todoItem/TodoItem';
 import { CreateTodoButton } from "./createTodoButton/CreateTodoButton";
 
-// list of compoments
+
 const defaultsTodos = [
   { id: 1, text: 'Cortar cebolla', completed: false },
   { id: 2, text: 'Tomar el curso de React', completed: true },
@@ -30,6 +30,57 @@ function App(props) {
   const [todos, setTodos] = React.useState(defaultsTodos);
   // estado de los valores buscados
   const [searchValue, setSearchValue] = React.useState('');
+
+  // function async for get Todos
+  async function getTodos() {
+    const response = await fetch('http://localhost:8080/api/v1/todos');
+    const data = await response.json();
+    console.log('data', data);
+    setTodos(data.reverse());
+  }
+  
+  // function async for crete to todo
+  async function postTodo(data) {
+    const { text, completed } = data;
+    try {
+      const response = await fetch("http://localhost:8080/api/v1/todos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        body: JSON.stringify({
+          text,
+          completed,
+        }),
+      });
+      await response.json();
+
+    } catch (error) {
+      console.error(error);
+    }
+    getTodos();
+  }
+
+  // function async to delete item 
+  async function deleteItem (id) {
+    try {
+      const response = await fetch(`http://localhost:8080/api/v1/todos/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+      });
+      await response.json();
+    } catch (error) {
+      console.error(error);
+    }
+    getTodos();
+  }
+
+  useEffect(() => {
+    getTodos();
+  }, []);
+
 
   // cantidad de todos completed
   const completedTodos = todos.filter(todo => !!todo.completed).length;
@@ -59,15 +110,13 @@ function App(props) {
               id={todo.id} 
               text={todo.text} 
               completed={todo.completed}
-              todos={todos}
-              setTodos={setTodos}
               viewTodos={nombres}
+              deleteItem={deleteItem}
             />
           ))}
         </TodoList>
         <CreateTodoButton
-          todos={todos}
-          setTodos={setTodos}
+          postTodo={postTodo}
         />
       </div>
     </React.Fragment>
