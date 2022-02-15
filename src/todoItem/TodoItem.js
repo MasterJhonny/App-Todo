@@ -8,7 +8,7 @@ function TodoItem(props) {
   // function asycn to update los data  
   async function updateTodo (id, done) {
     try {
-      const response = await fetch(`http://localhost:8080/api/v1/todos/${id}`, {
+      const response = await fetch(`http://192.168.1.101:8080/api/v1/todos/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json;charset=utf-8",

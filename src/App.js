@@ -27,13 +27,13 @@ const defaultsTodos = [
 
 function App(props) {
   // estado de los todos existentes
-  const [todos, setTodos] = React.useState(defaultsTodos);
+  const [todos, setTodos] = React.useState([]);
   // estado de los valores buscados
   const [searchValue, setSearchValue] = React.useState('');
 
   // function async for get Todos
   async function getTodos() {
-    const response = await fetch('http://localhost:8080/api/v1/todos');
+    const response = await fetch('http://192.168.1.101:8080/api/v1/todos');
     const data = await response.json();
     console.log('data', data);
     setTodos(data.reverse());
@@ -43,7 +43,7 @@ function App(props) {
   async function postTodo(data) {
     const { text, completed } = data;
     try {
-      const response = await fetch("http://localhost:8080/api/v1/todos", {
+      const response = await fetch("http://192.168.1.101:8080/api/v1/todos", {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=utf-8",
@@ -64,7 +64,7 @@ function App(props) {
   // function async to delete item 
   async function deleteItem (id) {
     try {
-      const response = await fetch(`http://localhost:8080/api/v1/todos/${id}`, {
+      const response = await fetch(`http://192.168.1.101:8080/api/v1/todos/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json;charset=utf-8",
