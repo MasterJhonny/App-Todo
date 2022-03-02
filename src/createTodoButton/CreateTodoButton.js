@@ -1,25 +1,30 @@
 import React from "react";
 import "./CreateButton.css";
 
-function CreateTodoButton({ postTodo }) {
+function CreateTodoButton({ postTodo, userId }) {
 
 
   
 
-  const onClickButton = (msg) => {
-    let valorTodo = prompt(msg);
-    const newTodo = {
-      text: valorTodo,
-      completed: false,
-    };
-    // console.log(newTodo);
-    postTodo(newTodo);
+  const onClickButton = () => {
+    let valorTodo = prompt("Ahora si! crearemos un to-do:");
+    if(valorTodo){
+      const newTodo = {
+        text: valorTodo,
+        completed: false,
+        user_id: userId
+      };
+      // console.log(newTodo);
+      postTodo(newTodo);
+    } else {
+      onClickButton()
+    }
   };
   return (
     <div>
       <button
         className="btn"
-        onClick={() => onClickButton("Ahora si! crearemos un to-do:")}
+        onClick={() => onClickButton()}
       >
         +
       </button>

@@ -5,31 +5,12 @@ function TodoItem(props) {
   // state de completed de cada to-do item
   const [stateCompleted, setStateCompleted] = React.useState(props.completed);
 
-  // function asycn to update los data  
-  async function updateTodo (id, done) {
-    try {
-      const response = await fetch(`http://192.168.1.101:8080/api/v1/todos/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json;charset=utf-8",
-        },
-        body: JSON.stringify({
-          completed: done,
-        }),
-      });
-      const data = await response.json();
-
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   // function for change the state of completed
   const changedStateCompleted = () => {
     // setStateCompleted(!stateCompleted);
     let index = props.id;
     let done = !props.completed;
-    updateTodo(index, done);
+    props.updateTodo(index, done);
     setStateCompleted(done);
   }
 
