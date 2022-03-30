@@ -1,21 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // import './Forsignup.css';
 
-function Forlogin({ setDatauser }) {
+// import context
+import { ContextUser } from '../Contexts/ContextUser'
+
+function Forlogin() {
+
+    // context 
+    const { user, setUser } = useContext(ContextUser);
 
     // use navegation for nav to pages
     const nav = useNavigate();
 
     //state new user signup
-    const [user, setUser] = useState({
+    const [userLogin, setUserLogin] = useState({
         name:'',
         password: ''
     });
 
-    // create new user
-    const signupUser = async (data) => {
+    // login autenticate
+    const loginUser = async (data) => {
         const {name, password} = data;
         if(name && password){
             try {
@@ -31,13 +37,13 @@ function Forlogin({ setDatauser }) {
                 })
                 const rta = await response.json();
                 console.log(rta)
+
+                localStorage.setItem('user', JSON.stringify(rta))
                 
-                setDatauser(rta.data)
+                setUser(rta)
 
                 // redirect to home page user
-                nav('/App-todo/', {
-                    rta
-                })
+                nav('/App-Todo/home')
             } catch (error) {
                 console.error(error)
             }
@@ -49,8 +55,8 @@ function Forlogin({ setDatauser }) {
     const onChangeData = (e)=> {
         const name = e.target.name;
         const value = e.target.value;
-        setUser({
-            ...user,
+        setUserLogin({
+            ...userLogin,
             [name]: value
         })
     }
@@ -58,7 +64,7 @@ function Forlogin({ setDatauser }) {
     // on onSubmit post form
     const onsubmitAction = (e) => {
         e.preventDefault();
-        signupUser(user);
+        loginUser(userLogin);
 
     }
 

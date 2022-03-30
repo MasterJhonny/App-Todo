@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 
 //import component 
@@ -9,7 +9,14 @@ import { TodoList } from "../todoList/TodoList";
 import { TodoItem } from '../todoItem/TodoItem';
 import { CreateTodoButton } from "../createTodoButton/CreateTodoButton";
 
-function Home ({ dataUser }) {
+// import context
+import { ContextUser } from '../Contexts/ContextUser'
+
+function Home () {
+
+  const { user, setUser} = useContext(ContextUser);
+
+  console.log('user Login', user);
    
     // estado de los todos existentes
   const [todos, setTodos] = React.useState([]);
@@ -44,7 +51,7 @@ function Home ({ dataUser }) {
     } catch (error) {
       console.error(error);
     }
-    getTodos(dataUser.id);
+    getTodos(user.id);
   }
 
   // function asycn to update los data  
@@ -64,7 +71,7 @@ function Home ({ dataUser }) {
     } catch (error) {
       console.error(error);
     }
-    getTodos(dataUser.id);
+    getTodos(user.id);
   }
 
   // function async to delete item 
@@ -81,12 +88,12 @@ function Home ({ dataUser }) {
     } catch (error) {
       console.error(error);
     }
-    getTodos(dataUser.id);
+    getTodos(user.id);
   }
 
   useEffect(() => {
-    getTodos(dataUser.id);
-    console.log('here! id', dataUser.id)
+    getTodos(user.id);
+    console.log('here! id', user.id)
   }, []);
 
 
@@ -100,12 +107,14 @@ function Home ({ dataUser }) {
     
     return (
         <React.Fragment>
-            <Header/>
+            <Header
+              httpOnly={user.httpOnly}
+            />
             <div className="main">
               <TodoCounter
                 total={todos.length}
                 completed={completedTodos}
-                userName={dataUser.name}
+                userName={user.name}
               />
               <TodoSearcher
                 searchValue={searchValue}
@@ -126,7 +135,7 @@ function Home ({ dataUser }) {
               </TodoList>
               <CreateTodoButton
                 postTodo={postTodo}
-                userId={dataUser.id} 
+                userId={user.id} 
               />
             </div>
         </React.Fragment>

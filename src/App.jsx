@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 import './App.css';
 
@@ -9,6 +9,11 @@ import { Home } from './Home/Home';
 import { Signup } from "./Signup/Signup";
 import { Login } from './Login/Login';
 
+
+import { ContextUserProvider } from './Contexts/ContextUser'
+
+// import use user
+import { useUser } from './hooks/useUser';
 
 // const defaultsTodos = [
 //   { id: 1, text: 'Cortar cebolla', completed: false },
@@ -24,25 +29,37 @@ import { Login } from './Login/Login';
 //   { id: 11, text: 'hacer la tarea', completed: true }
 // ]
 
+// function Redirect ({to}){
+//   let navigate = useNavigate();
+
+//   useEffect(() => {
+//     navigate(to)
+//   })
+//   return null;
+// }
+
+
+
 function App(props) {
-  const [dataUser, setDatauser] = useState({});
+
+  const auth = useUser().isAuthent()
 
 
   // render de los compomentes
   return (
-    <Router>
-      <Routes>
-        <Route path="/"  element={
-          <Home dataUser={dataUser} />
-        }/>
-        <Route path="/App-todo/signup" element={
-          <Signup/>
-        }/>
-        <Route path="/App-todo/login" element={
-          <Login setDatauser={setDatauser}/>
-        }/>
-      </Routes>
-    </Router>
+    <ContextUserProvider>
+      <Router>
+        <Routes>
+          <Route path="/App-Todo" element={auth ? <Home/> : <Navigate to="/App-todo/login"/> }/>
+          <Route path="/App-Todo/signup" element={
+            <Signup/>
+          }/>
+          <Route path="/App-Todo/login" element={
+            <Login/>
+          }/>
+        </Routes>
+      </Router>
+    </ContextUserProvider>
   );
 }
 

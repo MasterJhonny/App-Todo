@@ -16,3 +16,32 @@ img {
     line-height: 70px;
     margin-left: -70px;
 }
+
+.nav {
+    display: flex;
+    align-items: center;
+}
+
+.btn-nav {
+    padding: 6px;
+    margin-right: 10px;
+    font-size: 14px;
+    font-family: 'Lato', sans-serif; 
+    color: #fdfffed5;
+    border: 1px solid rgba(253, 255, 254, .4);
+    border-radius: 3px;
+    background-color: transparent;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0,.4);
+    cursor: pointer;
+}
+
+.active { 
+    color: #f469bc;
+    border: 1px solid rgba(244, 105, 188, 0.7);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0,.7);
+}
+
+.btn-nav:hover {
+    color: #fdfffeed;
+    border: 1px solid rgba(253, 255, 254, .7);
+}
