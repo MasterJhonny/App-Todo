@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { functions } from '../hooks/helpers'
+import { ContextUser } from '../Contexts/ContextUser'
+import { isAuthent } from '../hooks/useUser'
 
 import './Forsignup.css';
 
 function Forsignup() {
 
+    // context 
+    const { setUser } = useContext(ContextUser);
+
     // use navegation for nav to pages
     const nav = useNavigate();
 
     //state new user signup
-    const [user, setUser] = useState({
+    const [userRegister, setUserRegister] = useState({
         name:'',
         email: '',
         password: ''
@@ -32,10 +38,19 @@ function Forsignup() {
                     })
                 })
                 const rta = await response.json();
-                //console.log(rta)
-
-                // redirect to home page user
-                nav('/App-todo')
+                console.log(rta)
+                if(rta.error) {
+                    alert('Error: data Invalid!')
+                } else {
+                    // save cookie
+                    functions.saveCookies('jwt', rta.token)
+                    
+                    // auth
+                    isAuthent(setUser)
+    
+                    // redirect to home page user
+                    nav('/App-Todo')
+                }
             } catch (error) {
                 console.error(error)
             }
@@ -47,8 +62,8 @@ function Forsignup() {
     const onChangeData = (e)=> {
         const name = e.target.name;
         const value = e.target.value;
-        setUser({
-            ...user,
+        setUserRegister({
+            ...userRegister,
             [name]: value
         })
     }
@@ -56,7 +71,7 @@ function Forsignup() {
     // on onSubmit post form
     const onsubmitAction = (e) => {
         e.preventDefault();
-        signupUser(user);
+        signupUser(userRegister);
 
     }
 

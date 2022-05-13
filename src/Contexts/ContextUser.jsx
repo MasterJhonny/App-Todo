@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { isAuthent } from '../hooks/useUser'
 
 const ContextUser = React.createContext({});
 
 function ContextUserProvider({ children }) {
 
-    const dataLocal = JSON.parse(localStorage.getItem('user'))
-    
-    // const setValue = 
+    const [user,setUser] = useState({
+        id: 47,
+        name: 'user',
+        auth: false,
+    })
 
-    const [user, setUser] = useState(dataLocal ? dataLocal : null)
+    useEffect(() => {
+        isAuthent(setUser) 
+    }, [])
 
     return (
         <ContextUser.Provider value={{user, setUser}}>

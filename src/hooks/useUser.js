@@ -1,30 +1,18 @@
-import React, { useContext } from 'react'
+import { functions } from '../hooks/helpers'
 
-// import context
-import { ContextUser } from '../Contexts/ContextUser'
+function isAuthent (callback) {
+    const token = functions.readCookies('jwt');
 
-function useUser() {
-
-    const { user, setUser } = useContext(ContextUser);
-
-
-    const Login = () => {
-
-    }
-
-    const isAuthent = () => {
-        console.log('isAuthent', user)
-        if (user) {
-            return true;
-        } else {
-            return false;
+    fetch('http://192.168.1.101:8080/api/v1/users/auth', {
+        method: 'POST',
+        headers: {
+            "authorization": token
         }
-    }
-
-    return {
-        Login,
-        isAuthent
-    }
+    })
+    .then(res => res.json())
+    .then(data => callback(data))
+    .catch(err => console.error('Ups, un error!!', err))
 }
 
-export {useUser};
+
+export { isAuthent };

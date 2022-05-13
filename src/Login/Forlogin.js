@@ -5,11 +5,13 @@ import { useNavigate } from 'react-router-dom';
 
 // import context
 import { ContextUser } from '../Contexts/ContextUser'
+import { functions } from '../hooks/helpers';
+import { isAuthent } from '../hooks/useUser'
 
 function Forlogin() {
 
     // context 
-    const { user, setUser } = useContext(ContextUser);
+    const { setUser } = useContext(ContextUser);
 
     // use navegation for nav to pages
     const nav = useNavigate();
@@ -38,12 +40,18 @@ function Forlogin() {
                 const rta = await response.json();
                 console.log(rta)
 
-                localStorage.setItem('user', JSON.stringify(rta))
-                
-                setUser(rta)
+                if (rta.error) {
+                    alert("username or password incorrest!!")
+                } else {
+                    // saver Cookie
+                    functions.saveCookies('jwt', rta.token);
+                    
+                    isAuthent(setUser)
 
-                // redirect to home page user
-                nav('/App-Todo/home')
+                    // redirect to home page user
+                    nav('/App-Todo')
+                }
+
             } catch (error) {
                 console.error(error)
             }

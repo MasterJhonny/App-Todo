@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { functions } from '../hooks/helpers'
 
 
 //import component 
@@ -12,13 +13,25 @@ import { CreateTodoButton } from "../createTodoButton/CreateTodoButton";
 // import context
 import { ContextUser } from '../Contexts/ContextUser'
 
+
+
+const defaultsTodos = [
+  { id: 1, text: 'Cortar cebolla', completed: false },
+  { id: 2, text: 'Tomar el curso de React', completed: true },
+  { id: 3, text: 'Tomar Verano', completed: true },
+  { id: 4, text: 'Lalalalal', completed: true },
+  { id: 5, text: 'las vida', completed: false },
+  { id: 6, text: 'como hacer', completed: true },
+  { id: 7, text: 'tomar agua', completed: false },
+]
+
+
+
 function Home () {
 
-  const { user, setUser} = useContext(ContextUser);
-
-  console.log('user Login', user);
+  const { user } = useContext(ContextUser);
    
-    // estado de los todos existentes
+  // estado de los todos existentes
   const [todos, setTodos] = React.useState([]);
   // estado de los valores buscados
   const [searchValue, setSearchValue] = React.useState('');
@@ -27,7 +40,6 @@ function Home () {
   async function getTodos(id) {
     const response = await fetch(`http://192.168.1.101:8080/api/v1/todos/${id}`);
     const data = await response.json();
-    console.log(data)
     setTodos(data.reverse());
   }
   
@@ -92,9 +104,10 @@ function Home () {
   }
 
   useEffect(() => {
-    getTodos(user.id);
-    console.log('here! id', user.id)
-  }, []);
+    if(user.auth) {
+      getTodos(user.id);
+    }
+  }, [user.id]);
 
 
   // cantidad de todos completed
@@ -108,7 +121,6 @@ function Home () {
     return (
         <React.Fragment>
             <Header
-              httpOnly={user.httpOnly}
             />
             <div className="main">
               <TodoCounter
@@ -123,7 +135,7 @@ function Home () {
               <TodoList>
                 {nombres.map(todo => (
                   <TodoItem 
-                    key={todo.text} 
+                    key={todo.id} 
                     id={todo.id} 
                     text={todo.text} 
                     completed={todo.completed}
@@ -132,10 +144,20 @@ function Home () {
                     updateTodo={updateTodo}
                   />
                 ))}
+                {!user.auth ? defaultsTodos.map(todo => (
+                  <TodoItem 
+                    key={todo.text} 
+                    id={todo.id} 
+                    text={todo.text} 
+                    completed={todo.completed}
+                    viewTodos={nombres}
+                    deleteItem={deleteItem}
+                    updateTodo={updateTodo}
+                  />
+                )) : null}
               </TodoList>
               <CreateTodoButton
                 postTodo={postTodo}
-                userId={user.id} 
               />
             </div>
         </React.Fragment>
